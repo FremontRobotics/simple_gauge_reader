@@ -27,12 +27,10 @@ using namespace cv;
 using namespace std;
 
 // Use DEBUG_WRITE to write images to storage for debugging
-#if defined(DEBUG_WRITE)
+
 #include <opencv2/imgcodecs.hpp>
 #define DBG_WRITE_IMG(filename, img) imwrite(filename, img);
-#else
-#define DBG_WRITE_IMG(filename, img)
-#endif
+
 
 Gauge::Gauge(
     const Mat &img,
@@ -76,6 +74,8 @@ Gauge::Gauge(
     }
     croprange_x = Range(min_x, max_x);
     croprange_y = Range(min_y, max_y);
+    LOG_I("Center point: %d,%d  Min: %d,%d   Max: %d,%d", point_center.x, point_center.y, point_min.x, point_min.y, point_max.x, point_max.y);
+    LOG_I("Crop: %d,%d %d,%d", min_x, max_x, min_y, max_y);
     const Point offset(croprange_x.start, croprange_y.start);
     this->point_min = point_min - offset;
     this->point_center = point_center - offset;
@@ -117,6 +117,7 @@ double Gauge::ComputeGaugeValue(const Mat &img) const
         InvertImg(mat_a);
     }
     DBG_WRITE_IMG("compute_gauge_value_0_gray_after_dark.jpg", mat_a);
+    LOG_E("hi");
 
     // Prepare image for contour detection
     GaussianBlur(mat_a, mat_b, Size(5, 5), 0);

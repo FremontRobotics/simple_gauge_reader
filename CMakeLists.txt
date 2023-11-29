@@ -30,15 +30,23 @@ if(BUILD_TESTING)
 endif()
 
 add_executable(simple_gauge_reader src/gauge.cpp src/simple_gauge_reader.cpp)
+add_executable(simple_gauge_reader_from_image src/gauge.cpp  src/simple_gauge_reader_from_image.cpp)
 
 ament_target_dependencies(simple_gauge_reader rclcpp std_msgs sensor_msgs cv_bridge image_transport OpenCV simple_gauge_reader_interfaces)
+ament_target_dependencies(simple_gauge_reader_from_image rclcpp std_msgs sensor_msgs cv_bridge image_transport OpenCV simple_gauge_reader_interfaces)
 
 target_include_directories(simple_gauge_reader PRIVATE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 
+
+target_include_directories(simple_gauge_reader_from_image PRIVATE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+
 install(TARGETS
   simple_gauge_reader
+  simple_gauge_reader_from_image
   DESTINATION lib/${PROJECT_NAME})
 
 
